@@ -3,6 +3,7 @@ using System;
 using Largest.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Largest.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251223150247_AddingTableRevokedTokens")]
+    partial class AddingTableRevokedTokens
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -56,9 +59,6 @@ namespace Largest.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsIncome")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -71,6 +71,24 @@ namespace Largest.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Largest.Domain.Entities.RevokedToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Expiration")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RevokedTokens");
                 });
 
             modelBuilder.Entity("Largest.Domain.Entities.Transaction", b =>

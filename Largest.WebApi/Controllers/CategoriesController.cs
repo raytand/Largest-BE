@@ -25,8 +25,8 @@ namespace Largest.WebApi.Controllers
                 return BadRequest(ModelState);
             }
             int userId = int.Parse(User.FindFirst("id")!.Value);
-            var c = await _service.CreateCategoryAsync(userId, dto.Name);
-            return Ok(c);
+            var category = await _service.CreateCategoryAsync(userId, dto.Name, dto.IsIncome);
+            return Ok(category);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -39,8 +39,8 @@ namespace Largest.WebApi.Controllers
         public async Task<IActionResult> Get()
         {
             int userId = int.Parse(User.FindFirst("id")!.Value);
-            var items = await _service.GetAllCategoriesByUserIdAsync(userId);
-            return Ok(items);
+            var categories = await _service.GetAllCategoriesByUserIdAsync(userId);
+            return Ok(categories);
         }
     }
 

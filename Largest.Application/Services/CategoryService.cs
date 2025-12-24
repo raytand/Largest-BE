@@ -13,7 +13,7 @@ namespace Largest.Application.Services
             _repo = repo;
         }
 
-        public async Task<Category> CreateCategoryAsync(int userId, string categoryName)
+        public async Task<Category> CreateCategoryAsync(int userId, string categoryName, bool isIncome)
         {
             if(string.IsNullOrWhiteSpace(categoryName))
             {
@@ -25,7 +25,7 @@ namespace Largest.Application.Services
                 throw new AppException("Category with this name already exists.");
             }
 
-            var category = new Category { Name = categoryName.Trim(), UserId = userId };
+            var category = new Category { Name = categoryName.Trim(), UserId = userId, IsIncome = isIncome };
             return await _repo.AddCategoryAsync(category);
         }
         public async Task DeleteCategoryAsync(int userId, int categoryId)

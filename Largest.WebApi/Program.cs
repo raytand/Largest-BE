@@ -4,6 +4,7 @@ using Largest.Infrastructure.Data;
 using Largest.Infrastructure.Data.Repositories;
 using Largest.WebApi.Middleware;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -65,6 +66,7 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBalanceRepository, BalanceRepository>();
 builder.Services.AddScoped<IBalanceService, BalanceService>();
+
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
 
 builder.Services.AddAuthentication("Bearer")
@@ -86,6 +88,7 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 app.UseMiddleware<ErrorHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

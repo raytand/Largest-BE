@@ -3,7 +3,7 @@ using Largest.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Largest.WebApi.Controllers
-{     
+{
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
@@ -24,8 +24,9 @@ namespace Largest.WebApi.Controllers
             }
             var token = await _authService.LoginAsync(request.Email, request.Password);
             if (token == null)
+            {
                 return Unauthorized();
-
+            }
             return Ok(new { Token = token });
         }
 
