@@ -1,6 +1,7 @@
 ﻿using Largest.Application.DTO_s;
 using Largest.Application.Exceptions;
-using Largest.Application.Interfaces;
+using Largest.Application.Interfaces.Repositories;
+using Largest.Application.Interfaces.Services;
 using Largest.Domain.Entities;
 namespace Largest.Application.Services
 {

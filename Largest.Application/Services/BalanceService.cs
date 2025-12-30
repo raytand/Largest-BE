@@ -1,7 +1,7 @@
 ﻿using Largest.Application.DTO_s;
-using Largest.Application.DTOs;
 using Largest.Application.Exceptions;
-using Largest.Application.Interfaces;
+using Largest.Application.Interfaces.Repositories;
+using Largest.Application.Interfaces.Services;
 using Largest.Domain.Entities;
 
 namespace Largest.Application.Services
@@ -9,7 +9,11 @@ namespace Largest.Application.Services
     public class BalanceService : IBalanceService
     {
         private readonly IBalanceRepository _repo;
-        public BalanceService(IBalanceRepository repo) => _repo = repo;
+
+        public BalanceService(IBalanceRepository repo) 
+        {
+            _repo = repo;
+        }
 
         public async Task<Balance> CreateBalanceAsync(int userId, BalanceCreateDto dto)
         {

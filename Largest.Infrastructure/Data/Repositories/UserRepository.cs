@@ -1,4 +1,4 @@
-﻿using Largest.Application.Interfaces;
+﻿using Largest.Application.Interfaces.Repositories;
 using Largest.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

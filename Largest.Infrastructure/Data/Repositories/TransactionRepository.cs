@@ -1,4 +1,4 @@
-﻿using Largest.Application.Interfaces;
+﻿using Largest.Application.Interfaces.Repositories;
 using Largest.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +7,11 @@ namespace Largest.Infrastructure.Data.Repositories
     public class TransactionRepository : ITransactionRepository
     {
         private readonly AppDbContext _db;
-        public TransactionRepository(AppDbContext db) => _db = db;
+
+        public TransactionRepository(AppDbContext db)
+        {
+            _db = db;
+        }
 
         public async Task<Transaction> AddTransactionAsync(Transaction transaction)
         {

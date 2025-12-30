@@ -1,5 +1,5 @@
 ﻿using Largest.Application.DTO_s;
-using Largest.Application.Interfaces;
+using Largest.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +11,10 @@ namespace Largest.WebApi.Controllers
     public class BalanceController : ControllerBase
     {
         private readonly IBalanceService _balanceService;
-        public BalanceController(IBalanceService balanceService) { _balanceService = balanceService; }
+        public BalanceController(IBalanceService balanceService) 
+        {
+            _balanceService = balanceService;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Get()

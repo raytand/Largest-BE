@@ -1,4 +1,4 @@
-﻿using Largest.Application.Interfaces;
+﻿using Largest.Application.Interfaces.Repositories;
 using Largest.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +7,11 @@ namespace Largest.Infrastructure.Data.Repositories
     public class BalanceRepository : IBalanceRepository
     {
         private readonly AppDbContext _db;
-        public BalanceRepository(AppDbContext db) => _db = db;
+
+        public BalanceRepository(AppDbContext db) 
+        { 
+            _db = db; 
+        }
 
         public async Task<Balance> AddAsync(Balance balance)
         {
@@ -16,12 +20,15 @@ namespace Largest.Infrastructure.Data.Repositories
             return balance;
         }
 
-        public Task<Balance?> GetByIdAsync(int? balanceId) =>       
-            _db.Balances.Include(b => b.Transactions).FirstOrDefaultAsync(b => b.Id == balanceId);
+        public Task<Balance?> GetByIdAsync(int? balanceId)
+        {
+            return _db.Balances.Include(b => b.Transactions).FirstOrDefaultAsync(b => b.Id == balanceId);
+        }
 
-        public Task<List<Balance>> GetAllByUserAsync(int userId) =>
-            _db.Balances.Include(b => b.Transactions).Where(b => b.UserId == userId && b.IsActive == true).ToListAsync();
-
+        public Task<List<Balance>> GetAllByUserAsync(int userId)
+        {
+            return _db.Balances.Include(b => b.Transactions).Where(b => b.UserId == userId && b.IsActive == true).ToListAsync();
+        }
         public async Task UpdateAsync(Balance balance)
         {
             _db.Balances.Update(balance);

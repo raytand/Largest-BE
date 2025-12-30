@@ -1,5 +1,7 @@
-﻿using Largest.Application.Interfaces;
-using Largest.Application.DTOs;
+﻿using Largest.Application.DTOs;
+using Largest.Application.Interfaces.Helpers;
+using Largest.Application.Interfaces.Repositories;
+using Largest.Application.Interfaces.Services;
 using Largest.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -9,17 +11,18 @@ using System.Text;
 
 namespace Largest.Application.Services
 {
-
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly string _jwtKey;
         private readonly string _jwtIssuer;
         private readonly string _jwtAudience;
 
-        public AuthService(IUserRepository userRepository, IConfiguration config)
+        public AuthService(IUserRepository userRepository, IPasswordHasher passwordHasher, IConfiguration config)
         {
             _userRepository = userRepository;
+            _passwordHasher = passwordHasher;
             _jwtKey = config["Jwt:Key"] ?? throw new ArgumentNullException("Jwt:Key not found");
             _jwtIssuer = config["Jwt:Issuer"] ?? throw new ArgumentNullException("Jwt:Issuer not found");
             _jwtAudience = config["Jwt:Audience"] ?? throw new ArgumentNullException("Jwt:Audience not found");
@@ -28,10 +31,14 @@ namespace Largest.Application.Services
         public async Task<string?> LoginAsync(string email, string password)
         {
             var user = await _userRepository.GetUserByEmailAsync(email);
-            if (user == null) return null;
-
-            if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            if (user == null)
+            {
                 return null;
+            }
+            if (!_passwordHasher.VerifyPassword(user.PasswordHash, password))
+            {
+                return null;
+            }
 
             var claims = new[]
             {
@@ -65,7 +72,7 @@ namespace Largest.Application.Services
             var user = new User
             {
                 Username = request.Username,
-                PasswordHash = HashPassword(request.Password),
+                PasswordHash = _passwordHasher.HashPassword(request.Password),
                 Email = request.Email
             };
 

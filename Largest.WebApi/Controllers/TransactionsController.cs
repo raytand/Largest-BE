@@ -1,5 +1,5 @@
 ﻿using Largest.Application.DTO_s;
-using Largest.Application.Interfaces;
+using Largest.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +11,17 @@ namespace Largest.WebApi.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
-        public TransactionsController(ITransactionService transactionService) => _transactionService = transactionService;
-
+        public TransactionsController(ITransactionService transactionService)
+        {
+            _transactionService = transactionService;
+        }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TransactionCreateDto dto)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             int userId = int.Parse(User.FindFirst("id")!.Value);
             var transaction = await _transactionService.CreateTransactionAsync(userId, dto);

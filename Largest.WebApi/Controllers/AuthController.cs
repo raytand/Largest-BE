@@ -1,4 +1,5 @@
 ﻿using Largest.Application.DTOs;
+using Largest.Application.Interfaces.Services;
 using Largest.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +9,9 @@ namespace Largest.WebApi.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public AuthController(AuthService authService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }
@@ -20,12 +21,12 @@ namespace Largest.WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new { error = ModelState });
+                return BadRequest(new { message = "Invalid login request" });
             }
             var token = await _authService.LoginAsync(request.Email, request.Password);
-            if (token == null)
+            if (string.IsNullOrEmpty(token))
             {
-                return Unauthorized();
+                return Unauthorized(new {message = "Invalid email or password"});
             }
             return Ok(new { Token = token });
         }
@@ -35,11 +36,9 @@ namespace Largest.WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new { errors = ModelState });
+                return BadRequest(new { message = "Invalid registration request" });
             }
-
             var result = await _authService.RegisterAsync(request);
-
             if (!result.Success)
             {
                 return BadRequest(new { message = result.Message });

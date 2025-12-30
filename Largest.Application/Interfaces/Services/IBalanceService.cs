@@ -1,8 +1,7 @@
-﻿
-using Largest.Application.DTO_s;
+﻿using Largest.Application.DTO_s;
 using Largest.Domain.Entities;
 
-namespace Largest.Application.Interfaces
+namespace Largest.Application.Interfaces.Services
 {
     public interface IBalanceService
     {

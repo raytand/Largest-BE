@@ -1,10 +1,12 @@
-using Largest.Application.Interfaces;
+using Largest.Application.Interfaces.Helpers;
+using Largest.Application.Interfaces.Repositories;
+using Largest.Application.Interfaces.Services;
+using Largest.Application.Helpers;
 using Largest.Application.Services;
 using Largest.Infrastructure.Data;
 using Largest.Infrastructure.Data.Repositories;
 using Largest.WebApi.Middleware;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -58,14 +60,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default"),
         b => b.MigrationsAssembly("Largest.Infrastructure")));
 
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+// SERVICES
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IBalanceService, BalanceService>();
+// REPOSITORIES
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBalanceRepository, BalanceRepository>();
-builder.Services.AddScoped<IBalanceService, BalanceService>();
+// HELPERS
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
 

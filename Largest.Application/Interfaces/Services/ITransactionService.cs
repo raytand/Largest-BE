@@ -1,7 +1,7 @@
 ﻿using Largest.Domain.Entities;
 using Largest.Application.DTO_s;
 
-namespace Largest.Application.Interfaces
+namespace Largest.Application.Interfaces.Services
 {
     public interface ITransactionService
     {
