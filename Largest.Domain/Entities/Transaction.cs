@@ -11,7 +11,7 @@
         public int? CategoryId { get; set; }
         public Category? Category { get; set; } = null!;
 
-        public int? BalanceId { get; set; }
+        public int BalanceId { get; set; }
         public Balance? Balance { get; set; } = null!;
         public bool IsIncome { get; set; }
 
