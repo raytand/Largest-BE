@@ -30,5 +30,5 @@ namespace Largest.Application.DTO_s
         public string? BalanceName { get; set; }
     }
 
-
+    public record ExportTransactionDto(int Id, string Description, decimal Amount, DateTime Date);
 }

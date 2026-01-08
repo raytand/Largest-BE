@@ -1,7 +1,9 @@
+using Application.Exports;
+using Application.Services;
+using Largest.Application.Helpers;
 using Largest.Application.Interfaces.Helpers;
 using Largest.Application.Interfaces.Repositories;
 using Largest.Application.Interfaces.Services;
-using Largest.Application.Helpers;
 using Largest.Application.Services;
 using Largest.Infrastructure.Data;
 using Largest.Infrastructure.Data.Repositories;
@@ -9,8 +11,11 @@ using Largest.WebApi.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using QuestPDF.Infrastructure;
 using System.Text;
 
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,13 +70,16 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBalanceService, BalanceService>();
+builder.Services.AddScoped<IExportService, ExportService>();
 // REPOSITORIES
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBalanceRepository, BalanceRepository>();
+builder.Services.AddScoped<IExportJobRepository, ExportJobRepository>();
 // HELPERS
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<PdfGenerator>();
 
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
 

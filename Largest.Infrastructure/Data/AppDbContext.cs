@@ -10,6 +10,7 @@ namespace Largest.Infrastructure.Data
         public DbSet<BalanceUser> BalanceUsers => Set<BalanceUser>();
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Transaction> Transactions => Set<Transaction>();
+        public DbSet<ExportJob> ExportJobs => Set<ExportJob>();
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -50,6 +51,7 @@ namespace Largest.Infrastructure.Data
                 .WithMany()
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 
