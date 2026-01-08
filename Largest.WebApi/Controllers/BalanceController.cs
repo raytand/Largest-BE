@@ -37,6 +37,7 @@ namespace Largest.WebApi.Controllers
                     Role = userRole,
                     Users = b.BalanceUsers.Select(bu => new BalanceUserDto
                     {
+                        UserId = bu.UserId,
                         Email = bu.User.Email,
                         Role = bu.Role
                     }).Where(bus => bus.Role != 0).ToList()

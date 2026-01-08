@@ -89,7 +89,8 @@ namespace Largest.Application.Services
                 Description = t.Description,
                 IsIncome = t.IsIncome,
                 CategoryName = t.Category?.Name,
-                BalanceName = t.Balance?.Name
+                BalanceName = t.Balance?.Name,
+                Currency = t.Balance?.Currency
             }).ToList();
 
             return dtoList;
